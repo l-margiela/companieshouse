@@ -10,7 +10,7 @@ class CompanieshouseSpider(scrapy.Spider):
 
     def parse(self, response):
         uri = urlparse(response.url)
-        for sel in response.xpath('//main[@id="page-container"]/div[@class="appointments"]/div[@class="appointments-list"]/div'):
+        for sel in response.xpath('//main[@id="page-container"]/div[@id="content-container"]/div[@class="appointments"]/div[@class="appointments-list"]/div'):
             name_and_cnr = re.search('(.+) \(([0-9A-Z]+)\)', sel.xpath('h2[1]/a/text()').extract()[0])
             item = CompanieshouseItem()
             item["company_name"] = name_and_cnr.group(1)
@@ -30,7 +30,7 @@ class CompanieshouseSpider(scrapy.Spider):
                 pass
 
     def officers_parse(self, response):
-        for sel in response.xpath('//main/div[@class="appointments-list"]/div'):
+        for sel in response.xpath('//main/div[@id="content-container"]/div[@class="appointments-list"]/div'):
             officer = OfficerItem()
 
             full_name = sel.xpath('h2/span/a/text()').extract()[0]
